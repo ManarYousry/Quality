@@ -1,0 +1,176 @@
+<!--  ------main----------------- -->
+<mat-card class="example-card" style="padding-bottom: 30px !important;">
+    <div class="caption"><span> Section History Report </span></div>
+    <div class="search-div mt-5" fxLayout="row">
+           
+        
+    </div>
+    <div class="shadow py-5 px-4 ">
+        
+        <mat-grid-list cols="2" rowHeight="270px">
+            <mat-grid-tile>
+              <div class="controles-container">
+                <mat-form-field class="mb-4" appearance="outline">
+                    <mat-label>Date From</mat-label>
+                    <input  [ngxMatDatetimePicker]="DateFrom"  matInput placeholder="Date From" readonly>
+                     
+                    <mat-datepicker-toggle matSuffix [for]="$any(DateFrom)"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker #DateFrom>
+                    </ngx-mat-datetime-picker>
+                    <mat-error>This field is mandatory.</mat-error>
+                 </mat-form-field>
+                 <mat-form-field class="mb-4" appearance="outline">
+                  <mat-label>Date To</mat-label>
+                  <input  [ngxMatDatetimePicker]="DateTo"  matInput placeholder="Date To" readonly>
+                   
+                  <mat-datepicker-toggle matSuffix [for]="$any(DateTo)"></mat-datepicker-toggle>
+                  <ngx-mat-datetime-picker #DateTo>
+                  </ngx-mat-datetime-picker>
+                  <mat-error>This field is mandatory.</mat-error>
+               </mat-form-field>
+                <button mat-raised-button class="my-2" color="warn">Set Date</button>
+                
+                <mat-form-field class=" demo-chip-list" appearance="outline">
+                    <mat-label>Select Section</mat-label>
+                    <mat-chip-list #chipList>
+                      <mat-chip
+                        *ngFor="let fruit of fruits"
+                        [selectable]="selectable"
+                        [removable]="removable"
+                        (removed)="remove(fruit)">
+                        {{fruit}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input
+                        placeholder="New fruit..."
+                        #fruitInput
+                        [formControl]="fruitCtrl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)"
+                      />
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                        {{ fruit }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+               
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <div class="controles-container">
+                <mat-form-field class="demo-chip-list" appearance="outline">
+                    <mat-label>Select Team</mat-label> 
+                    <mat-chip-list #chipList>
+                      <mat-chip
+                        *ngFor="let fruit of fruits"
+                        [selectable]="selectable"
+                        [removable]="removable"
+                        (removed)="remove(fruit)">
+                        {{fruit}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input
+                        placeholder="New fruit..."
+                        #fruitInput
+                        [formControl]="fruitCtrl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)"
+                      />
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                        {{ fruit }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                <mat-form-field class="demo-chip-list" appearance="outline">
+                    <mat-label>Select Shift</mat-label> 
+                    <mat-chip-list #chipList>
+                      <mat-chip
+                        *ngFor="let fruit of fruits"
+                        [selectable]="selectable"
+                        [removable]="removable"
+                        (removed)="remove(fruit)">
+                        {{fruit}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input
+                        placeholder="New fruit..."
+                        #fruitInput
+                        [formControl]="fruitCtrl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)"
+                      />
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                        {{ fruit }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <mat-form-field class="demo-chip-list" appearance="outline">
+                    <mat-label>Select Engineer</mat-label>
+                    <mat-chip-list #chipList>
+                      <mat-chip
+                        *ngFor="let fruit of fruits"
+                        [selectable]="selectable"
+                        [removable]="removable"
+                        (removed)="remove(fruit)">
+                        {{fruit}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input
+                        placeholder="New fruit..."
+                        #fruitInput
+                        [formControl]="fruitCtrl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)"
+                      />
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                        {{ fruit }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+
+                
+               
+              </div>
+            </mat-grid-tile>
+            
+          </mat-grid-list>
+          <mat-grid-list cols="1" rowHeight="50px">
+            <mat-grid-tile>
+              <div class="button-row w-100 text-right pr-4">
+             <button mat-raised-button class="w-25" color="warn">Search</button>
+            </div>
+
+          </mat-grid-tile>
+          </mat-grid-list>
+      
+        
+        
+         
+        
+    </div>
+   
+  
+</mat-card>
+
+
+
