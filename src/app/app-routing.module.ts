@@ -49,9 +49,16 @@ const routes: Routes = [
     path:'login',
   component:LoginComponent,
  },
+ {
+  path: '',
+  redirectTo: '/result', // Redirect to result by default
+  pathMatch: 'full'
+},
   {
     path:'',
     component: LayoutComponent,
+
+
 
 
     children: [
@@ -248,10 +255,10 @@ const routes: Routes = [
     }
 
 
-  
+
     ]
   },
- 
+
 
 ];
 

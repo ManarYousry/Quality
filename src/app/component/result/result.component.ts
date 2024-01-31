@@ -5,28 +5,41 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { DeleteService } from 'src/app/shared/service/delete.service';
 import { NotificationService } from 'src/app/shared/service/notification.service';
+import { ServiceService } from './service.service';
 
- 
+
+// export interface PeriodicElement {
+//   CallDate: string;
+//   CustName:string;
+//   User:string;
+//   Serial: string;
+//   MonitorName:string;
+//   Status:string;
+// }
+
 export interface PeriodicElement {
-  CallDate: string;
-  CustName:string;
-  User:string;
-  Serial: string;
-  MonitorName:string;
-  Status:string;
+  id?: number
+  name?: string
+  gender?: string
+  age?: number
+  address?: Address
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
-  { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'}
-];
+export interface Address {
+  state?: string
+  city?: string
+}
+
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'},
+//   { CallDate: 'oooo', CustName: 'Hydrogen',User:"user",  Serial: 'H',MonitorName: 'Hydrogen', Status: 'Hydrogen'}
+// ];
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
@@ -34,24 +47,25 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ResultComponent implements OnInit {
 
+  list:Array<PeriodicElement>=[]
   searchKey:string ='' ;
-  constructor(private title:Title,private dialogService: DeleteService, public notificationService: NotificationService ){
-  
+  constructor(private title:Title,private dialogService: DeleteService,private service:ServiceService, public notificationService: NotificationService ){
+
     this.title.setTitle("Quality Management :: Result")
-    
-  }
- 
-  @ViewChild(MatSort) sort?:MatSort ;
-  @ViewChild(MatPaginator) paginator?:MatPaginator ;
-  displayedColumns: string[] = ['CallDate','CustName', 'User', 'Serial', 'MonitorName' , 'Status' ,'Action'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  
-  ngOnInit(){
-   
+
   }
 
-  ngAfterViewInit() { 
-  
+  @ViewChild(MatSort) sort?:MatSort ;
+  @ViewChild(MatPaginator) paginator?:MatPaginator ;
+  displayedColumns: string[] = ['id','name', 'gender', 'age', 'address'];
+  dataSource = new MatTableDataSource();
+
+  ngOnInit(){
+   this.getRequestData();
+  }
+
+  ngAfterViewInit() {
+
     this.dataSource.sort = this.sort as MatSort;
     this.dataSource.paginator = this.paginator as MatPaginator;}
 
@@ -62,9 +76,60 @@ export class ResultComponent implements OnInit {
     applyFilter(){
       this.dataSource.filter=this.searchKey.trim().toLowerCase();
     }
-    
 
-   
+
+
+    getRequestData(){
+
+      this.service.getLists().subscribe(
+
+        (res)=>{
+
+          this.list=res
+          this.list.length= res.length;
+          this.dataSource = new MatTableDataSource<any>(this.list);
+          this.dataSource.paginator = this.paginator as MatPaginator;
+          this.dataSource.sort = this.sort as MatSort;
+
+      },
+      (error)=>{
+            console.log(error.error.message)
+      })
+    }
+
+//next previous page
+// pageIn = 0;
+// public pIn: number = 0;
+// pagesizedef: number = 100;
+// previousSizedef: number = 100;
+// pageChanged(event: any) {
+//   //this.loading = true;
+//   this.pIn = event.pageIndex;
+//   this.pageIn = event.pageIndex;
+//   this.pagesizedef = event.pageSize;
+//   let pageIndex = event.pageIndex;
+//   let pageSize = event.pageSize;
+//   let previousSize = pageSize * pageIndex;
+//   this.previousSizedef = previousSize;
+//   this.getRequestdataNext(previousSize, pageSize, pageIndex + 1)
+
+// }
+// getRequestdataNext(previousSize: number, pageSize: number, pageNum: number) {
+//   this.service.getLists().subscribe(res => {
+
+//       this.list.length = previousSize;
+//       this.list=res.slice(pageNum,pageSize)
+//      // this.list.push(...res.);
+//       this.list.length = res.length;
+//       this.dataSource = new MatTableDataSource<any>(this.list);
+//       this.dataSource._updateChangeSubscription();
+//       this.dataSource.paginator = this.paginator as MatPaginator;
+
+//   }, (error) => {
+//    console.log(error.error.message)
+//   })
+// }
+
     onDelete(){
      // this.dialogService.openConfirmDialog();
      this.dialogService.openConfirmDialog().afterClosed().subscribe(res => {
